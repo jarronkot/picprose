@@ -53,21 +53,9 @@ export default function Home() {
   };
 
   return (
-    <div className="flex overflow-x-hidden">
-      <div className="min-w-80 max-w-80">
-        
-      </div>
-      <div className="flex-grow bg-gray-100 overflow-x-auto ">
-        <div className="flex justify-center items-center h-full w-full min-w-[800px] px-5 ">
+    
+      
           <Canvas/>
-        </div>
-      </div>
-      <div className="min-w-80 max-w-80">
-        {/* <RightPropertyPanel
-          onImageDowloadClick={onImageDowloadClick}
-          onPropInfoChange={onPropInfoChange}
-        /> */}
-      </div>
-    </div>
+ 
   );
 }
