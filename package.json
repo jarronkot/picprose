@@ -24,7 +24,8 @@
     "react-konva": "^18.2.10",
     "react-photo-album": "^2.3.1",
     "unsplash-js": "^7.0.19",
-    "use-image": "^1.1.1"
+    "use-image": "^1.1.1",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@types/node": "^20",
