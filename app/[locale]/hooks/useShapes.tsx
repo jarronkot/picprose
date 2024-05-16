@@ -44,8 +44,12 @@ export function useShapes () {
           height: 720,
           image: new Image(),
           draggable: true,
-          src : ""
+          src : "",
+          blur: 0,
         };
+
+        // set default selected shape
+        setSelectedShape(image)
         setShapes([...shapes, image, title, author]);
       };
      
@@ -55,12 +59,14 @@ export function useShapes () {
 
 
       useEffect(() => {
-        console.log(selectedShape)
         let update = false;
         const updateShapes = shapes.map(shape => {
           if (selectedShape && shape.id === selectedShape.id) {
             update = true;
-            return selectedShape;
+            return {
+              ...shape,
+              ...selectedShape,
+            };
           }
           return shape;
         })

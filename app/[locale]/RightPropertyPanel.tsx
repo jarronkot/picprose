@@ -45,6 +45,7 @@ import {useTranslations} from 'next-intl';
 import { useShapesContext } from "./context/useShapesContext";
 
 export const RightPropertyPanel = (props) => {
+  const {selectedShape, setSelectedShape} = useShapesContext();
   const titleArr = config.title;
 
   const [titleValue, setTitleValue] = React.useState(
@@ -164,6 +165,14 @@ export const RightPropertyPanel = (props) => {
       ...preValue,
       blurTrans: trans,
     }));
+    
+
+    if(selectedShape&&selectedShape.type === 'image') {
+      selectedShape.blur = blurTransValue as number/100.0;
+      setSelectedShape({...selectedShape})
+    } 
+ 
+
   }, [blurTransValue]);
 
   React.useEffect(() => {

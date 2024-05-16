@@ -65,10 +65,10 @@ export default function Home() {
         </div>
       </div>
       <div className="min-w-80 max-w-80">
-        {/* <RightPropertyPanel
+        <RightPropertyPanel
           onImageDowloadClick={onImageDowloadClick}
           onPropInfoChange={onPropInfoChange}
-        /> */}
+        />
       </div>
     </div>
     </ShapeContextProvider>

@@ -98,6 +98,7 @@ export const Canvas = () => {
                   height={720}
                   keepRatio={true}
                   url={shape.url}
+                  blur={shape.blur}
                   onClick={ () =>  setSelectedShape(shape)}
                 />
               );

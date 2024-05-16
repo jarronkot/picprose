@@ -42,7 +42,7 @@ export const LeftResourcePanel = (props) => {
 
   const [windowHeight, setWindowHeight] = React.useState(0);
  
-  const {shapes, selectedShape, setSelectedShape} = useShapesContext();
+  const {selectedShape, setSelectedShape} = useShapesContext();
 
   const handleFileChange = (event) => {
     if (event.target.files[0] != null) {
@@ -171,22 +171,11 @@ export const LeftResourcePanel = (props) => {
 
   //
   const selectImage = (index: number, imageList:[]) => {
-    // shapes.map((shape) => {
-    //   if (shape.type === "image") {
-    //     shape.url = imageList[index].url;
-    //   }
-    // });
-
-
-    
 
     if(selectedShape&&selectedShape.type === 'image') {
       selectedShape.url = imageList[index].url;
       setSelectedShape({...selectedShape})
     }
-     
-    
-    // props.onData(imageList[index]);
   };
 
   return (
