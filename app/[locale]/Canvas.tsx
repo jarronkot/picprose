@@ -21,7 +21,7 @@ export const Canvas = () => {
   const trRef = useRef<Transformer>();
 
   const [loaded, setLoaded] = useState(false);
-  const { shapes, selectedShapeId, setSelected, getShapeById } = useShapesContext();
+  const { shapes, setSelectedShape } = useShapesContext();
 
   const initFont = () => {
     // Fetch necessary fonts.
@@ -67,8 +67,7 @@ export const Canvas = () => {
     width: 1280,
     height: 720,
   });
-  const url =
-    "https://images.unsplash.com/photo-1715314945142-2980c03c93be?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+ 
   return (
     <Stage
       ref={stageRef}
@@ -78,28 +77,28 @@ export const Canvas = () => {
     >
       <Layer scaleX={0.5} scaleY={0.5} ref={layerRef}>
         <Frame width={1280} height={720} radius={10}>
-          {shapes.map((attr, index) => {
-            console.log(attr.type);
-            if (attr.type === "rect") 
-              return (<Rect key={attr.id} {...attr} />)
-            else if (attr.type === "text")
+          {shapes.map((shape, index) => {
+            console.log(shape.type);
+            if (shape.type === "rect") 
+              return (<Rect key={shape.id} {...shape} />)
+            else if (shape.type === "text")
               return (
                 <Text
-                  key={attr.id}
+                  key={shape.id}
                   fontFamily={loaded ? "Anek Latin" : "Arial"}
                   fontSize={40}
-                  onClick={ () =>  setSelected(attr.id)}
-                  {...attr}
+                  onClick={ () =>  setSelectedShape(shape)}
+                  {...shape}
                 />
               );
-            else if (attr.type === "image")
+            else if (shape.type === "image")
               return (
                 <FilterImage
                   width={1280}
                   height={720}
                   keepRatio={true}
-                  url={attr.url}
-                  onClick={ () =>  setSelected(attr.id)}
+                  url={shape.url}
+                  onClick={ () =>  setSelectedShape(shape)}
                 />
               );
           })}

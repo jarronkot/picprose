@@ -4,16 +4,14 @@ import { useShapes } from "../hooks/useShapes";
 
 interface ShapesContextInterface {
   shapes: Konva.ShapeConfig[];
-  selectedShapeId: string | undefined;
-  setSelected: (shapeId: string | undefined) => void;
-  getShapeById: (shapeId: string) => Konva.ShapeConfig | undefined;
+  selectedShape: Konva.ShapeConfig | undefined;
+  setSelectedShape: (shape : Konva.ShapeConfig) => void;
 }
  
 const ShapesContext = createContext<ShapesContextInterface>({
   shapes: [],
-  selectedShapeId: '',
-  setSelected: () => {},
-  getShapeById: () => undefined,
+  selectedShape: {},
+  setSelectedShape:(shape : Konva.ShapeConfig) => { }
 });
 
 export const ShapeContextProvider = ({
@@ -21,14 +19,13 @@ export const ShapeContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { shapes, setShapes, selectedShapeId, setSelectedShapeId } = useShapes();
+  const { shapes, setShapes, selectedShape, setSelectedShape } = useShapes();
   return (
     <ShapesContext.Provider
       value={{
         shapes: shapes,
-        selectedShapeId: selectedShapeId,
-        setSelected: setSelectedShapeId,
-        getShapeById: () => undefined,
+        selectedShape: selectedShape,
+        setSelectedShape: setSelectedShape,
       }}
     >
       {children}

@@ -42,6 +42,8 @@ import { BottomRightIcon } from "./icons/BottomRightIcon";
 import { TopRightIcon } from "./icons/TopRightIcon";
 import { config } from "@/config";
 import {useTranslations} from 'next-intl';
+import { useShapesContext } from "./context/useShapesContext";
+
 export const RightPropertyPanel = (props) => {
   const titleArr = config.title;
 

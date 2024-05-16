@@ -5,7 +5,7 @@ import { Frame } from "../component/frame";
 
 export function useShapes () {
     const [shapes, setShapes] = useState<Konva.ShapeConfig[]>([]);
-    const [selectedShapeId, setSelectedShapeId] = useState('')
+    const [selectedShape, setSelectedShape] = useState<Konva.ShapeConfig>()
 
     const initShapes = () => {
         const title: Konva.TextConfig = {
@@ -53,12 +53,23 @@ export function useShapes () {
         initShapes()
       }, [])
 
+
       useEffect(() => {
-        console.log(selectedShapeId)
-      }, [selectedShapeId])
+        console.log(selectedShape)
+        let update = false;
+        const updateShapes = shapes.map(shape => {
+          if (selectedShape && shape.id === selectedShape.id) {
+            update = true;
+            return selectedShape;
+          }
+          return shape;
+        })
 
+        if(update) {
+          setShapes(updateShapes)
+        }
+      }, [selectedShape])
  
-
-      return { shapes, setShapes, selectedShapeId, setSelectedShapeId};
+      return { shapes, setShapes, selectedShape, setSelectedShape};
 };
 
