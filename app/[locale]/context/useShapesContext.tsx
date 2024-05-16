@@ -1,30 +1,42 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import Konva from "konva";
-import {useShapes} from "../hooks/useShapes"
-
-
+import { useShapes } from "../hooks/useShapes";
 
 interface ShapesContextInterface {
-    shapes: Konva.ShapeConfig[];
-    selected: boolean;
-    setSelected: (shapeId: string) => void;
-    getShapeById: (shapeId: string) => Konva.ShapeConfig | undefined;
+  shapes: Konva.ShapeConfig[];
+  selectedShapeId: string | undefined;
+  setSelected: (shapeId: string | undefined) => void;
+  getShapeById: (shapeId: string) => Konva.ShapeConfig | undefined;
 }
+ 
+const ShapesContext = createContext<ShapesContextInterface>({
+  shapes: [],
+  selectedShapeId: '',
+  setSelected: () => {},
+  getShapeById: () => undefined,
+});
 
-const ShapesContext = createContext<ShapesContextInterface>(
-    {
-        shapes: [],
-        selected: false,
-        setSelected: () => {},
+export const ShapeContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const { shapes, setShapes, selectedShapeId, setSelectedShapeId } = useShapes();
+  return (
+    <ShapesContext.Provider
+      value={{
+        shapes: shapes,
+        selectedShapeId: selectedShapeId,
+        setSelected: setSelectedShapeId,
         getShapeById: () => undefined,
-    }
-);
- 
-export function useShapesContext () {
-    const { shapes, setShapes } = useShapes();
+      }}
+    >
+      {children}
+    </ShapesContext.Provider>
+  );
+};
 
-  
- 
-    const context = useContext(ShapesContext);
-    return context;
+export function useShapesContext() {
+  const context = useContext(ShapesContext);
+  return context;
 }

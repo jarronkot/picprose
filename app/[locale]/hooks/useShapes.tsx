@@ -5,9 +5,11 @@ import { Frame } from "../component/frame";
 
 export function useShapes () {
     const [shapes, setShapes] = useState<Konva.ShapeConfig[]>([]);
+    const [selectedShapeId, setSelectedShapeId] = useState('')
 
     const initShapes = () => {
         const title: Konva.TextConfig = {
+          id: "001",
           type: "text",
           x: 250,
           y: 720/3,
@@ -21,6 +23,7 @@ export function useShapes () {
         };
     
         const author: Konva.TextConfig = {
+          id: "002",
           type: "text",
           x: (1280 - 100)/2,
           y: 720/3*2,
@@ -31,13 +34,31 @@ export function useShapes () {
           fontSize: 40,
           draggable: true,
         };
-        setShapes([...shapes, title, author]);
+
+        const image: Konva.ImageConfig = {
+          id: "003",
+          type: "image",
+          x: 0,
+          y: 0,
+          width: 1280,
+          height: 720,
+          image: new Image(),
+          draggable: true,
+          src : ""
+        };
+        setShapes([...shapes, image, title, author]);
       };
      
       useEffect(() => {
         initShapes()
       }, [])
 
-      return { shapes, setShapes };
+      useEffect(() => {
+        console.log(selectedShapeId)
+      }, [selectedShapeId])
+
+ 
+
+      return { shapes, setShapes, selectedShapeId, setSelectedShapeId};
 };
 

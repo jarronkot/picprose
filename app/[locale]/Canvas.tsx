@@ -19,29 +19,34 @@ export const Canvas = () => {
   const stageRef = useRef<Konva.Stage>();
   const layerRef = useRef<Konva.Layer>();
   const trRef = useRef<Transformer>();
- 
 
   const [loaded, setLoaded] = useState(false);
-  const { shapes, selected, setSelected, getShapeById} =  useShapesContext()
+  const { shapes, selectedShapeId, setSelected, getShapeById } = useShapesContext();
 
   const initFont = () => {
-
     // Fetch necessary fonts.
     WebFontLoader.load({
       google: {
-        families: ["Open Sans:400,600,700", "Roboto", "Raleway", 'Droid Sans', 'Droid Serif', 'Anek Latin']
+        families: [
+          "Open Sans:400,600,700",
+          "Roboto",
+          "Raleway",
+          "Droid Sans",
+          "Droid Serif",
+          "Anek Latin",
+        ],
       },
       fontactive: () => {
         setTimeout(() => {
           setLoaded(true);
         }, 1000);
-      }
+      },
     });
   };
- 
+
   useEffect(() => {
-    initFont()
- 
+    initFont();
+
     function handleResize() {
       setStageDimensions({
         width: window.innerWidth,
@@ -58,12 +63,12 @@ export const Canvas = () => {
     }
   }, []);
 
-
   const [stageDimensions, setStageDimensions] = useState({
     width: 1280,
     height: 720,
   });
- 
+  const url =
+    "https://images.unsplash.com/photo-1715314945142-2980c03c93be?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   return (
     <Stage
       ref={stageRef}
@@ -72,18 +77,32 @@ export const Canvas = () => {
       className="bg-slate-100 overflow-x-scroll"
     >
       <Layer scaleX={0.5} scaleY={0.5} ref={layerRef}>
-        <Frame
-          width={1280}
-          height={720}
-          radius = {10}
-          >
-          <FilterImage width={1280} height={720} keepRatio={true}/>
+        <Frame width={1280} height={720} radius={10}>
           {shapes.map((attr, index) => {
             console.log(attr.type);
-            if (attr.type === "rect") return <Rect key="dd" {...attr} />;
-            else if (attr.type === "text") return <Text key="ds" fontFamily={loaded ? "Anek Latin" : "Arial"} fontSize={40} {...attr} />;
+            if (attr.type === "rect") 
+              return (<Rect key={attr.id} {...attr} />)
+            else if (attr.type === "text")
+              return (
+                <Text
+                  key={attr.id}
+                  fontFamily={loaded ? "Anek Latin" : "Arial"}
+                  fontSize={40}
+                  onClick={ () =>  setSelected(attr.id)}
+                  {...attr}
+                />
+              );
+            else if (attr.type === "image")
+              return (
+                <FilterImage
+                  width={1280}
+                  height={720}
+                  keepRatio={true}
+                  url={attr.url}
+                  onClick={ () =>  setSelected(attr.id)}
+                />
+              );
           })}
-          <FilterImage width={120} height={120} keepRatio={false}/>
         </Frame>
       </Layer>
     </Stage>

@@ -21,6 +21,9 @@ import { PicproseLogo } from "./PicproseLogo";
 import PhotoAlbum from "react-photo-album";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {useTranslations} from 'next-intl';
+
+import { useShapesContext} from "./context/useShapesContext";
+
 const PHOTO_SPACING = 8;
 const KEY_CODE_ENTERN = 13;
 const PHOTO_COUNT_PER_PAGE = 30;
@@ -39,6 +42,7 @@ export const LeftResourcePanel = (props) => {
 
   const [windowHeight, setWindowHeight] = React.useState(0);
  
+  const {shapes, getShapeById} = useShapesContext();
 
   const handleFileChange = (event) => {
     if (event.target.files[0] != null) {
@@ -167,7 +171,12 @@ export const LeftResourcePanel = (props) => {
 
   //
   const selectImage = (index: number, imageList:[]) => {
-    props.onData(imageList[index]);
+    shapes.map((shape) => {
+      if (shape.type === "image") {
+        shape.url = imageList[index].url;
+      }
+    });
+    // props.onData(imageList[index]);
   };
 
   return (
