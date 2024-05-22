@@ -16,6 +16,7 @@ import {
 } from "@nextui-org/react";
 import { LeftResourcePanel } from "./LeftResourcePanel";
 import { RightPropertyPanel } from "./RightPropertyPanel";
+
 import { users } from "./data";
 import { ImageEditor } from "./ImageEditor";
 import { ComponentToImg } from "./ComponentToImg";

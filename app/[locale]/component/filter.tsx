@@ -41,7 +41,7 @@ export const FilterImage = ({
       imageRef.current.red(31);
       imageRef.current.green(41);
       imageRef.current.blue(55);
-      imageRef.current.alpha(blur);
+      imageRef.current.alpha(blur/100);
     }
   }, [blur]);
  

@@ -142,7 +142,7 @@ export const LeftResourcePanel = (props) => {
   const onScrollToBottom = () => {
     if (isNeedRandomPhoto) {
       // fetch more random image
-      fetchRandomPhotos();
+      searchImages();
     } else {
       // search more image
       const pageNum = unsplashPage + 1;
@@ -154,7 +154,7 @@ export const LeftResourcePanel = (props) => {
   React.useEffect(() => {
     setWindowHeight(window.innerHeight);
     
-    fetchRandomPhotos();
+    searchImages();
 
     const handleResize = () => {
       setWindowHeight(window.innerHeight);

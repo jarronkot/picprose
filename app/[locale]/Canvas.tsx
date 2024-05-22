@@ -109,9 +109,7 @@ export const Canvas = () => {
                   key={shape.id}
                   fontFamily={loaded ? "Anek Latin" : "Arial"}
                   fontSize={40}
-                  onClick={() => {
-                    downloadimage();
-                  }}
+                  onClick={() => setSelectedShape(shape)}
                   {...shape}
                 />
               );
