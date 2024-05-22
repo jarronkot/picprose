@@ -32,7 +32,7 @@ export const FilterImage = ({
   React.useEffect(() => {
     if (image && imageRef.current) {
       // 
-      imageRef.current.cache({pixelRatio: 0.5});
+      imageRef.current.cache({pixelRatio: 0.6});
     }
   }, [image]);
  
@@ -58,6 +58,9 @@ export const FilterImage = ({
       filters={[Konva.Filters.RGBA, Konva.Filters.Blur]}
       blurRadius={0}
       onClick={onClick}
+      onDragMove={ () => {
+        imageRef.current?.x(0)
+      } }
       {...props}
     />
   );

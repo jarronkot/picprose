@@ -1,20 +1,12 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Stage,
-  Layer,
-  Rect,
-  Text,
-  Transformer,
-  Image as KonvaImage,
-  Group,
-} from "react-konva";
+import { Stage, Layer, Rect, Text } from "react-konva";
 import Konva from "konva";
 import { FilterImage } from "./component/filter";
 import { Frame } from "./component/frame";
 import WebFontLoader from "webfontloader";
 import { useShapesContext } from "./context/useShapesContext";
-
+import { useStage } from "./hooks/useStage";
 export const Canvas = () => {
   const stageRef = useRef<Konva.Stage>();
   const layerRef = useRef<Konva.Layer>();
@@ -22,7 +14,13 @@ export const Canvas = () => {
 
   const [loaded, setLoaded] = useState(false);
   const { shapes, setSelectedShape } = useShapesContext();
-
+  const { stage, setStage, stageScale, setStageScale } = useStage();
+  const [frameSize, setFrameSize] = useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }>({ x: 0, y: 0, width: 1280, height: 720 });
   const initFont = () => {
     // Fetch necessary fonts.
     WebFontLoader.load({
@@ -67,27 +65,53 @@ export const Canvas = () => {
     width: 1280,
     height: 720,
   });
- 
+
+  function downloadURI(uri, name) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    // delete link;
+  }
+
+  function downloadimage() {
+    if (stageRef.current) {
+      var dataURL = stageRef.current.toDataURL({
+        x: frameSize.x,
+        y: frameSize.y,
+        width: frameSize.width * stageScale.x,
+        height: frameSize.height * stageScale.y,
+        pixelRatio: 2,
+      });
+      downloadURI(dataURL, "stage.png");
+    }
+  }
+
   return (
     <Stage
       ref={stageRef}
       width={stageDimensions.width}
-      height={stageDimensions.height - 15}
+      height={stageDimensions.height}
+      scaleX={stageScale.x}
+      scaleY={stageScale.y}
       className="bg-slate-100 overflow-x-scroll"
     >
-      <Layer scaleX={0.5} scaleY={0.5} ref={layerRef}>
-        <Frame width={1280} height={720} radius={10}>
+      <Layer ref={layerRef}>
+        <Frame {...frameSize} radius={10}>
           {shapes.map((shape, index) => {
-            console.log(shape.type);
-            if (shape.type === "rect") 
-              return (<Rect key={shape.id} {...shape} />)
+            if (shape.type === "rect")
+              return <Rect key={shape.id} {...shape} />;
             else if (shape.type === "text")
               return (
                 <Text
                   key={shape.id}
                   fontFamily={loaded ? "Anek Latin" : "Arial"}
                   fontSize={40}
-                  onClick={ () =>  setSelectedShape(shape)}
+                  onClick={() => {
+                    downloadimage();
+                  }}
                   {...shape}
                 />
               );
@@ -99,7 +123,7 @@ export const Canvas = () => {
                   keepRatio={true}
                   url={shape.url}
                   blur={shape.blur}
-                  onClick={ () =>  setSelectedShape(shape)}
+                  onClick={() => setSelectedShape(shape)}
                 />
               );
           })}

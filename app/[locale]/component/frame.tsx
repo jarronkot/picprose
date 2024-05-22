@@ -28,12 +28,16 @@ const drawRoundedRectClip = (
 
 export const Frame = ({
   children,
+  x,
+  y,
   width,
   height,
   radius,
   ...props
 }: {
   children: React.ReactNode;
+  x: number;
+  y: number;
   width: number;
   height: number;
   radius: number;
@@ -41,16 +45,16 @@ export const Frame = ({
   return (
     <Group
       draggable
-      x={0}
-      y={0}
+      x={x}
+      y={y}
       clipFunc={(ctx) => {
-        drawRoundedRectClip(ctx, 0, 0, width, height, radius);
+        drawRoundedRectClip(ctx, x, y, width, height, radius);
       }}
     >
       <Rect
         name="frame-background"
-        x={0}
-        y={0}
+        x={x}
+        y={y}
         width={width}
         height={height}
         cornerRadius = {radius}
